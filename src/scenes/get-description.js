@@ -24,7 +24,7 @@ async function getDescription(ctx) {
 
     ctx.wizard.state.payload = {
       description: ctx.update.message.text,
-      reporterUsername: ctx.update.message.from.username,
+      reporterUsername: ctx.update.message.from.username ?? 'SEM_USERNAME',
       category: 'generico'
     }
     console.log('ctx.state.payload -> ', ctx.wizard.state.payload);

@@ -57,7 +57,7 @@ async function getPhoto(ctx) {
         }
 
         console.log('[getPhoto] result -> ', result);
-        await ctx.reply('👨🏼‍🔧 Muito obrigado pela ajuda!');
+        await ctx.reply('👨🏼‍🔧 Muito obrigado pela ajuda! \n /start - Caso queira relatar mais uma dificuldade. ');
         return await ctx.scene.leave();
     } catch (error) {
         console.log('[getPhoto] - error -> ', error);
