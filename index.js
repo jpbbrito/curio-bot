@@ -1,21 +1,20 @@
-const { Composer, Telegraf, session, Scenes, Markup } = require('telegraf');
+const { Composer, Telegraf, session, Scenes } = require('telegraf');
 
 require('dotenv').config({
-    path: process.env.NODE_ENV === 'dev' ? '.dev.env' : '.env' 
-})
+  path: process.env.NODE_ENV === 'dev' ? '.dev.env' : '.env'
+});
 
-const { start, getDescription, getLocation, endScene, getAddress } = require('./src/scene')
+const {
+  start,
+  stepHandler,
+  getDescription,
+  getLocation,
+  getAddress,
+  getPhoto,
+  endScene,
+} = require('./src/scenes');
+
 const bot = new Telegraf(process.env.TOKEN);
-
-const stepHandler = new Composer()
-stepHandler.action('next', async (ctx) => {
-  await ctx.reply('⌨️ Descreva o problema encontrado: ')
-  return ctx.wizard.next()
-});
-stepHandler.action('leave', async (ctx) => {
-  await ctx.reply('🏃Saindo da conversa...')
-  return ctx.scene.leave()
-});
 
 const superWizard = new Scenes.WizardScene(
   'super-wizard',
@@ -24,12 +23,13 @@ const superWizard = new Scenes.WizardScene(
   getDescription,
   getLocation,
   getAddress,
+  getPhoto,
   endScene,
 )
 
 const stage = new Scenes.Stage([superWizard], {
   default: 'super-wizard',
-})
+});
 bot.use(session())
 bot.use(stage.middleware())
 bot.launch()
