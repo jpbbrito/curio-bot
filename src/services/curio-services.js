@@ -37,10 +37,10 @@ module.exports = {
     }, 
     async saveImageProblem({ uuid, base64, description = ' ' }, api_key) {
         
-        const data = {
+        const data = JSON.stringify({
            base64,
            description
-        }
+        });
 
         console.log('[saveProblem] data', data);
 
@@ -52,7 +52,7 @@ module.exports = {
                 'api-key': api_key,
                 'Content-Type': 'application/json'
             },
-            data
+            data: data
         };
 
         try {
