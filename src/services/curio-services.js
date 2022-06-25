@@ -3,14 +3,14 @@ const axios = require('axios');
 module.exports = {
     async saveProblem({ description, address, reporterUsername, longitude, latitude, category }, api_key) {
         
-        const data = {
+        const data = JSON.stringify({
             description,
             address,
             reporterUsername,
             longitude,
             latitude,
             category
-        }
+        });
 
         console.log('[saveProblem] data', data);
 
