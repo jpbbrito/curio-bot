@@ -1,5 +1,4 @@
 # Curió Bot
-
 Esse é o bot Telegram para coleta de dados do projeto Curió. 
 
 ToDo List:
