@@ -1,6 +1,11 @@
 const { welcomeText, exitText, exitDelay, errorUnprocessedMessage } = require('../messages/regular');
 
+function timeout (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 async function getDescription(ctx) {
+  await timeout(1000)
   try {
     console.log('[getDescription] ctx.wizard.cursor -> ', ctx.wizard.cursor);
     console.log('[getDescription] -> ctx.wizard.state.lastMessageTime', ctx.wizard.state.lastMessageTime);
@@ -21,10 +26,19 @@ async function getDescription(ctx) {
       ctx.wizard.state.lastMessageTime = ctx.update.message.date;
       return ctx.wizard.selectStep(ctx.wizard.cursor);
     }
+    const firstName = ctx.update.message.from.first_name ?? ""
+    const lastName = ctx.update.message.from.last_name ?? ""
+    let fullName
+    if (firstName.length === 0 && lastName.length === 0) {
+      fullName = 'SEM_NAME'
+    } else {
+      fullName = firstName + ' ' + lastName
+    }
 
     ctx.wizard.state.payload = {
       description: ctx.update.message.text,
       reporterUsername: ctx.update.message.from.username ?? 'SEM_USERNAME',
+      reporterName: fullName,
       category: 'generico'
     }
     console.log('ctx.state.payload -> ', ctx.wizard.state.payload);

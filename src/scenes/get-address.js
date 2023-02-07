@@ -1,7 +1,12 @@
 const curioServices = require('../services/curio-services');
 const { exitDelay, errorUnprocessedMessage } = require('../messages/regular');
 
+function timeout (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 async function getAddress(ctx) {
+  await timeout(1000)
   try {
     console.log('[getAddress] ctx.wizard.cursor -> ', ctx.wizard.cursor);
     console.log('[getAddress] -> location', ctx.update);

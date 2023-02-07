@@ -4,6 +4,8 @@ require('dotenv').config({
   path: process.env.NODE_ENV === 'dev' ? '.dev.env' : '.env'
 });
 
+console.log('[index] process.env.URL_SERVER_API', process.env.URL_SERVER_API);
+
 const {
   start,
   stepHandler,

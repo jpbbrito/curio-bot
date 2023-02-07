@@ -1,12 +1,13 @@
 const axios = require('axios');
 
 module.exports = {
-    async saveProblem({ description, address, reporterUsername, longitude, latitude, category }, api_key) {
+    async saveProblem({ description, address, reporterUsername, reporterName, longitude, latitude, category }, api_key) {
         
         const data = JSON.stringify({
             description,
             address,
             reporterUsername,
+            reporterName,
             longitude,
             latitude,
             category
@@ -14,7 +15,7 @@ module.exports = {
 
         console.log('[saveProblem] data', data);
 
-        const url = `http://curiocity.duckdns.org:8080/api/v1/problems`
+        const url = `${process.env.URL_SERVER_API}/api/v1/problems`
         const config = {
             method: 'post',
             url: url,

@@ -1,6 +1,11 @@
 const { welcomeText, exitText, exitDelay, errorUnprocessedMessage } = require('../messages/regular');
 
+function timeout (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 async function stepHandler(ctx) {
+  await timeout(1000)
   try {
     console.log('[stepHandler] -> ctx.wizard.state.lastMessageTime', ctx.wizard.state.lastMessageTime);
     console.log('[stepHandler] -> ctx.update.message.date', ctx.update.message.date);
