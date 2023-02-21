@@ -1,11 +1,9 @@
 const { welcomeText, exitText, exitDelay, errorUnprocessedMessage } = require('../messages/regular');
 
-function timeout (ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
 
 async function stepHandler(ctx) {
-  await timeout(1000)
+  await ctx.wizard.state.delayResponse(ctx.wizard.state.DELAY_REPONSE)
+
   try {
     console.log('[stepHandler] -> ctx.wizard.state.lastMessageTime', ctx.wizard.state.lastMessageTime);
     console.log('[stepHandler] -> ctx.update.message.date', ctx.update.message.date);
@@ -13,9 +11,10 @@ async function stepHandler(ctx) {
     console.log('[stepHandler] -> ctx.update.message', ctx.update.message);
 
     if (!ctx.update.message.text) {
-      throw Error('Somente texto nessa conversa');
+      await ctx.reply('Somente texto nessa conversa');
+      return ctx.scene.leave();
     }
-    
+
     if ((ctx.update.message.date - ctx.wizard.state.lastMessageTime) > ctx.wizard.state.TIMEOUT_RESPONSE) {
       await ctx.reply(exitDelay);
       return ctx.scene.leave()

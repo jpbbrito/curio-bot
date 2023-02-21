@@ -3,12 +3,10 @@ const curioServices = require('../services/curio-services');
 const { exitDelay, errorUnprocessedMessage } = require('../messages/regular');
 const { Buffer } = require('buffer');
 
-function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-}
 
 async function getPhoto(ctx) {
-    await timeout(1000)
+    await ctx.wizard.state.delayResponse(ctx.wizard.state.DELAY_REPONSE)
+
     try {
         console.log('[getPhoto] ctx.state.payload -> ', ctx.wizard.state.payload);
         console.log('[getPhoto] ctx.update.message -> ', ctx.update.message);

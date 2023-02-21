@@ -1,12 +1,10 @@
 const curioServices = require('../services/curio-services');
 const { exitDelay, errorUnprocessedMessage } = require('../messages/regular');
 
-function timeout (ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
-
 async function getAddress(ctx) {
-  await timeout(1000)
+  
+  await ctx.wizard.state.delayResponse(ctx.wizard.state.DELAY_REPONSE)
+
   try {
     console.log('[getAddress] ctx.wizard.cursor -> ', ctx.wizard.cursor);
     console.log('[getAddress] -> location', ctx.update);
@@ -41,7 +39,7 @@ async function getAddress(ctx) {
       await ctx.reply('🛑 Houve um erro, tentar novamente mais tarde!');
       return await ctx.scene.leave();
     }
-    
+
     ctx.wizard.state.payload.uuid = response.uuid;
 
     await ctx.reply(' 📸 Envia uma foto do local: ');

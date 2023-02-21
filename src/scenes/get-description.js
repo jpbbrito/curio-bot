@@ -1,11 +1,8 @@
 const { welcomeText, exitText, exitDelay, errorUnprocessedMessage } = require('../messages/regular');
 
-function timeout (ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
-
 async function getDescription(ctx) {
-  await timeout(1000)
+  await ctx.wizard.state.delayResponse(ctx.wizard.state.DELAY_REPONSE)
+
   try {
     console.log('[getDescription] ctx.wizard.cursor -> ', ctx.wizard.cursor);
     console.log('[getDescription] -> ctx.wizard.state.lastMessageTime', ctx.wizard.state.lastMessageTime);

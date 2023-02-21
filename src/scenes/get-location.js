@@ -1,11 +1,8 @@
-const { exitText,errorUnprocessedMessage, exitDelay } = require('../messages/regular');
-
-function timeout (ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
+const { exitText, errorUnprocessedMessage, exitDelay } = require('../messages/regular');
 
 async function getLocation(ctx) {
-  await timeout(1000)
+  await ctx.wizard.state.delayResponse(ctx.wizard.state.DELAY_REPONSE)
+
   try {
     console.log('[getLocation] ctx.state.payload -> ', ctx.wizard.state.payload);
     console.log('[getLocation] ctx.wizard.cursor -> ', ctx.wizard.cursor);
