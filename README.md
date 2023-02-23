@@ -2,7 +2,8 @@
 Esse é o bot Telegram para coleta de dados do projeto Curió. 
 
 TESTE DEPLOY PROD
-
+TESTE TESTE 
+ 
 ToDo List:
 * Encerrar dialogo após 60 segundos. DONE
 * Escrever conversa para selecionar categoria de problema.
