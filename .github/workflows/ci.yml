@@ -11,11 +11,11 @@ jobs:
       - name: Use variables
         run: |
           echo "repository secrets : ${{ secrets }}"
-          echo "repository secrets : $secrets"
+          echo "repository secrets : ${{ toJSON(secrets) }}"
           echo "repository secrets : ${{ secrets.DEPLOY }}"
           echo "organization variable : ${{ vars.ORGANIZATION_VAR }}"
           echo "env : ${{ env }}"
-          echo "deploy env: ${{ env.DEPLOY }}"
+          echo "deploy env: ${{ toJSON(env) }}"
           echo "deploy env: ${{ env.DEPLOY.secrets }}"
           echo "deploy env: ${{ env.secrets }}"
       - name: Checkout do repositorio
