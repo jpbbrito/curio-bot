@@ -12,7 +12,7 @@ jobs:
         run: |
           echo "repository variable : ${{ vars.REPOSITORY_VAR }}"
           echo "organization variable : ${{ vars.ORGANIZATION_VAR }}"
-          echo "overridden variable : ${{ vars.OVERRIDE_VAR }}"
+          echo "overridden variable : ${{ env }}"
           echo "variable from shell environment : $env_var"
       - name: Checkout do repositorio
         uses: actions/checkout@v1
