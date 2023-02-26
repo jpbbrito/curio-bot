@@ -11,6 +11,8 @@ jobs:
       - name: Use variables
         run: |
           echo "repository secrets : ${{ secrets }}"
+          echo "repository secrets : $secrets"
+          echo "repository secrets : ${{ secrets.DEPLOY }}"
           echo "organization variable : ${{ vars.ORGANIZATION_VAR }}"
           echo "env : ${{ env }}"
           echo "deploy env: ${{ env.DEPLOY }}"
