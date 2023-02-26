@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-       - name: Use variables
+      - name: Use variables
         run: |
           echo "repository variable : ${{ vars.REPOSITORY_VAR }}"
           echo "organization variable : ${{ vars.ORGANIZATION_VAR }}"
