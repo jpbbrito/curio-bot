@@ -13,10 +13,10 @@ jobs:
       - name: Deploy para meu hosting
         uses: easingthemes/ssh-deploy@main
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_PRIVATE_KEY: ${{ env.SSH_PRIVATE_KEY }}
           ARGS: "-rlgoDzvc -i"
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_USER: ${{ secrets.SSH_USER }}
+          REMOTE_HOST: ${{ env.SSH_HOST }}
+          REMOTE_USER: ${{ env.SSH_USER }}
           SCRIPT_BEFORE: |
             whoami
             ls -al
