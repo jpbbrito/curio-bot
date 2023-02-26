@@ -8,6 +8,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+       - name: Use variables
+        run: |
+          echo "repository variable : ${{ vars.REPOSITORY_VAR }}"
+          echo "organization variable : ${{ vars.ORGANIZATION_VAR }}"
+          echo "overridden variable : ${{ vars.OVERRIDE_VAR }}"
+          echo "variable from shell environment : $env_var"
       - name: Checkout do repositorio
         uses: actions/checkout@v1
       - name: Deploy para meu hosting
