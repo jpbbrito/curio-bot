@@ -9,24 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Use variables
-        run: |
-          echo "repository secrets : ${{ secrets }}"
-          echo "repository secrets : ${{ toJSON(secrets) }}"
-          echo "repository secrets : ${{ secrets.DEPLOY }}"
-          echo "organization variable : ${{ vars.ORGANIZATION_VAR }}"
-          echo "env : ${{ env }}"
-          echo "deploy env: ${{ toJSON(env) }}"
-          echo "deploy env: ${{ env.DEPLOY.secrets }}"
-          echo "deploy env: ${{ env.secrets }}"
       - name: Checkout do repositorio
         uses: actions/checkout@v1
       - name: Deploy para meu hosting
         uses: easingthemes/ssh-deploy@main
         env:
-          SSH_PRIVATE_KEY: ${{ env.secrets.SSH_PRIVATE_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: "-rlgoDzvc -i"
-          REMOTE_HOST: ${{ env.secrets.SSH_HOST }}
-          REMOTE_USER: ${{ env.secrets.SSH_USER }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
           SCRIPT_BEFORE: |
             whoami
             ls -al
