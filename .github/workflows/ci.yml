@@ -10,10 +10,11 @@ jobs:
     steps:
       - name: Use variables
         run: |
-          echo "repository variable : ${{ vars.REPOSITORY_VAR }}"
+          echo "repository secrets : ${{ secrets }}"
           echo "organization variable : ${{ vars.ORGANIZATION_VAR }}"
-          echo "overridden variable : ${{ env }}"
-          echo "variable from shell environment : $env_var"
+          echo "env : ${{ env }}"
+          echo "deploy env: ${{ env.DEPLOY }}"
+          echo "deploy env: ${{ env.DEPLOY.secrets }}"
       - name: Checkout do repositorio
         uses: actions/checkout@v1
       - name: Deploy para meu hosting
