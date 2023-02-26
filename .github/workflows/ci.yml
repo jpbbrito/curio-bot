@@ -18,9 +18,3 @@ jobs:
           REMOTE_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_USER: ${{ secrets.SSH_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
-          SCRIPT_BEFORE: |
-            whoami
-            ls 
-          SCRIPT_AFTER: |
-            whoami
-            ls 
