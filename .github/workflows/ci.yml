@@ -15,6 +15,7 @@ jobs:
           echo "env : ${{ env }}"
           echo "deploy env: ${{ env.DEPLOY }}"
           echo "deploy env: ${{ env.DEPLOY.secrets }}"
+          echo "deploy env: ${{ env.secrets }}"
       - name: Checkout do repositorio
         uses: actions/checkout@v1
       - name: Deploy para meu hosting
