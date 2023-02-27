@@ -8,18 +8,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: SSH Server Deploy
-        uses: kostya-ten/ssh-server-deploy@v4
+      - name: 💞 Github actions...
+        uses: actions/checkout@v3
+      - name: 🌈 Deploy with ssh...
+        uses: sebastianjnuwu/ssh-action-deploy@v1
         with:
-          host: ${{ secrets.SSH_HOST }}
-          port: ${{ secrets.SSH_PORT }}
-          username: ${{ secrets.SSH_USER }}
-          private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          scp_source: README.md
-          scp_target: ~/
-          before_script: |
-            df -h
-          after_script: |
-            whoami
+          IP: ${{ secrets.SSH_HOST }}
+          USER: ${{ secrets.SSH_USER }}
+          KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          FOLDER: "./curio-bot"
+          RUN: 'ls -a; pwd'
