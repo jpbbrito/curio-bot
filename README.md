@@ -1,7 +1,7 @@
 # Curió Bot
 Esse é o bot Telegram para coleta de dados do projeto Curió. 
 
-TESTE DEPLOY 
+TESTE DEPLOY - 1
 
 ToDo List:
 * Encerrar dialogo após 60 segundos. DONE
