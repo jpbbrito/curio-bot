@@ -19,7 +19,4 @@ jobs:
           private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           scp_source: /
           scp_target: ~/curio-bot
-          before_script: |
-            echo pwd
-          after_script: |
-            sh ~/curio-bot/deploy.sh
+            
