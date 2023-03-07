@@ -20,8 +20,6 @@ jobs:
           scp_source: /
           scp_target: ~/curio-bot
           before_script: |
-            cd curio-bot
-            docker compose --env-file .env down
+            echo pwd
           after_script: |
-            docker compose build
-            docker compose --env-file .env up bot -d
+            sh ~/curio-bot/deploy.sh
