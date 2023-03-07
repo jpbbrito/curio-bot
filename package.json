@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "NODE_ENV=dev npx nodemon index.js",
-    "start": "docker compose --env-file .env up bot -d",
+    "start": "npx nodemon index.js",
     "stop": "docker compose --env-file .env down"
   },
   "keywords": [],
