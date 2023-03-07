@@ -21,7 +21,7 @@ jobs:
           scp_target: ~/curio-bot
           before_script: |
             cd curio-bot
-            npm run stop
-            npm run build
+            docker compose --env-file .env down
           after_script: |
-            npm run start
+            docker compose build
+            docker compose --env-file .env up bot -d
