@@ -20,7 +20,7 @@ jobs:
           scp_source: /
           scp_target: ~/curio-bot
           before_script: |
-            cd /curio-bot
+            cd curio-bot
             npm run stop
             npm run build
           after_script: |
