@@ -45,7 +45,7 @@ module.exports = {
 
         console.log('[saveProblem] data', data);
 
-        const url = `http://curiocity.duckdns.org:8080/api/v1/problems/${uuid}/images`
+        const url = `${process.env.URL_SERVER_API}/api/v1/problems/${uuid}/images`
         const config = {
             method: 'post',
             url: url,
