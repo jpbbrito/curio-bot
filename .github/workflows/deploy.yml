@@ -1,0 +1,50 @@
+# this action deploys this repository to the ssh server that was configured for more information visit: https://github.com/marketplace/actions/ssh-action-deploy
+
+name: 🐦 deploy
+
+on:
+
+ workflow_dispatch:
+
+jobs:
+
+  build:
+
+    name: 🕳️ Ubuntu...
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: 💞 Github actions...
+
+        uses: actions/checkout@v3
+
+      - name: ✨ creating the config...
+
+        run: |
+
+          cat >>./.env<<END
+
+            ${{ secrets.config }}
+
+          END
+
+        shell: bash
+
+      - name: 🌈 Deploy with ssh...
+
+        uses: sebastianjnuwu/ssh-action-deploy@action
+
+        with:
+
+          IP: ${{ secrets.IP }}
+
+          USER: ${{ secrets.USER }}
+
+          KEY: ${{ secrets.KEY }}
+
+          FOLDER: 'ubuntu/.deploy/curio-bot'
+
+          RUN: "cd .deploy/curio-bot && docker-compose up --build -d"
+
