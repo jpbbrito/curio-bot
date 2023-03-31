@@ -64,8 +64,13 @@ async function getPhoto(ctx) {
         return await ctx.scene.leave();
     } catch (error) {
         console.log('[getPhoto] - error -> ', error);
-        await ctx.reply(errorUnprocessedMessage);
-        return ctx.scene.leave();
+        try {
+            await ctx.reply(errorUnprocessedMessage);
+            return ctx.scene.leave();
+        } catch (error) {
+            console.log('[getPhoto] - errorUnprocessedMessage - error -> ', error);
+            return ctx.scene.leave();
+        }
     }
 }
 

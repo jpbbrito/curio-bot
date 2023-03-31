@@ -34,7 +34,13 @@ const stage = new Scenes.Stage([superWizard], {
 });
 bot.use(session())
 bot.use(stage.middleware())
-bot.launch()
+try {
+  bot.launch()
+} catch (error) {
+  console.log('[index.js] error', error)
+  bot.launch()
+}
+
 
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))

@@ -1,6 +1,8 @@
 const { welcomeText, exitText, errorUnprocessedMessage } = require('../messages/regular');
 
 async function start(ctx) {
+  console.log('[start] ctx.wizard.message', ctx.update.message); 
+
   ctx.wizard.state.delayResponse = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms))
   }
@@ -26,8 +28,13 @@ async function start(ctx) {
     return ctx.wizard.next();
   } catch (error) {
     console.log('[getDescription] - error -> ', error);
-    await ctx.reply(errorUnprocessedMessage);
-    return ctx.scene.leave();
+    try {
+      await ctx.reply(errorUnprocessedMessage);
+      return ctx.scene.leave();
+    } catch (error) {
+      console.log('[getDescription] - errorUnprocessedMessage - error -> ', error);
+      return ctx.scene.leave();
+    }
   }
 }
 

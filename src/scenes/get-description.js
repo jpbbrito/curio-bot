@@ -46,8 +46,13 @@ async function getDescription(ctx) {
 
   } catch (error) {
     console.log('[getDescription] - error -> ', error);
-    await ctx.reply(errorUnprocessedMessage);
-    return ctx.scene.leave();
+    try {
+      await ctx.reply(errorUnprocessedMessage);
+      return ctx.scene.leave();
+    } catch (error) {
+      console.log('[getDescription] - errorUnprocessedMessage - error -> ', error);
+      return ctx.scene.leave();
+    }
   }
 }
 

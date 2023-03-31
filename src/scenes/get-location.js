@@ -32,8 +32,13 @@ async function getLocation(ctx) {
     return await ctx.wizard.next();
   } catch (error) {
     console.log('[getLocation] - error -> ', error);
-    await ctx.reply(errorUnprocessedMessage);
-    return ctx.scene.leave();
+    try {
+      await ctx.reply(errorUnprocessedMessage);
+      return ctx.scene.leave();
+    } catch (error) {
+      console.log('[getLocation] - errorUnprocessedMessage - error -> ', error);
+      return ctx.scene.leave();
+    }
   }
 }
 

@@ -2,7 +2,7 @@ const curioServices = require('../services/curio-services');
 const { exitDelay, errorUnprocessedMessage } = require('../messages/regular');
 
 async function getAddress(ctx) {
-  
+
   await ctx.wizard.state.delayResponse(ctx.wizard.state.DELAY_REPONSE)
 
   try {
@@ -46,9 +46,14 @@ async function getAddress(ctx) {
     ctx.wizard.state.lastMessageTime = ctx.update.message.date;
     return ctx.wizard.next();
   } catch (error) {
-    console.log('[getDescription] - error -> ', error);
-    await ctx.reply(errorUnprocessedMessage);
-    return ctx.scene.leave();
+    console.log('[getAddress] - error -> ', error);
+    try {
+      await ctx.reply(errorUnprocessedMessage);
+      return ctx.scene.leave();
+    } catch (error) {
+      console.log('[getAddress] - errorUnprocessedMessage - error -> ', error);
+      return ctx.scene.leave();
+    }
   }
 }
 

@@ -5,10 +5,10 @@ async function stepHandler(ctx) {
   await ctx.wizard.state.delayResponse(ctx.wizard.state.DELAY_REPONSE)
 
   try {
-    console.log('[stepHandler] -> ctx.wizard.state.lastMessageTime', ctx.wizard.state.lastMessageTime);
-    console.log('[stepHandler] -> ctx.update.message.date', ctx.update.message.date);
-    console.log('(ctx.update.message.date - ctx.wizard.state.lastMessageTime)', ctx.update.message.date - ctx.wizard.state.lastMessageTime)
-    console.log('[stepHandler] -> ctx.update.message', ctx.update.message);
+    console.log('[stepHandler] -> ctx.wizard.state.lastMessageTime', ctx?.wizard?.state?.lastMessageTime);
+    console.log('[stepHandler] -> ctx.update.message.date', ctx?.update?.message?.date);
+    console.log('(ctx.update.message.date - ctx.wizard.state.lastMessageTime)', ctx?.update?.message?.date - ctx.wizard.state.lastMessageTime)
+    console.log('[stepHandler] -> ctx.update.message', ctx?.update?.message);
 
     if (!ctx.update.message.text) {
       await ctx.reply('Somente texto nessa conversa');
@@ -33,9 +33,14 @@ async function stepHandler(ctx) {
     ctx.wizard.state.lastMessageTime = ctx.update.message.date;
     return ctx.wizard.next();
   } catch (error) {
-    console.log('[getDescription] - error -> ', error);
-    await ctx.reply(errorUnprocessedMessage);
-    return ctx.scene.leave();
+    console.log('[stepHandler] - error -> ', error);
+    try {
+      await ctx.reply(errorUnprocessedMessage);
+      return ctx.scene.leave();
+    } catch (error) {
+      console.log('[stepHandler] - errorUnprocessedMessage - error -> ', error);
+      return ctx.scene.leave();
+    }
   }
 }
 
