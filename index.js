@@ -1,4 +1,7 @@
 const { Composer, Telegraf, session, Scenes } = require('telegraf');
+const express = 'express';
+
+const app = express();
 
 require('dotenv').config({
   path: process.env.NODE_ENV === 'dev' ? '.dev.env' : '.env'
@@ -34,12 +37,18 @@ const stage = new Scenes.Stage([superWizard], {
 });
 bot.use(session())
 bot.use(stage.middleware())
-try {
-  bot.launch()
-} catch (error) {
-  console.log('[index.js] error', error)
-  bot.launch()
-}
+
+app.listen(3000, () => {
+  try {
+    bot.launch()
+  } catch (error) {
+    console.log('[index.js] error', error)
+    bot.launch()
+    process.once('SIGINT', () => bot.stop('SIGINT'))
+    process.once('SIGTERM', () => bot.stop('SIGTERM'))
+  }
+  console.log("Listening on port", port)
+})
 
 
 process.once('SIGINT', () => bot.stop('SIGINT'))
