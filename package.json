@@ -9,7 +9,7 @@
     "start": "node index.js",
     "start:docker": "docker compose --env-file .env up bot -d",
     "stop": "docker compose --env-file .env down",
-    "build": "docker compose build"
+    "build:old": "docker compose build"
   },
   "keywords": [],
   "author": "",
