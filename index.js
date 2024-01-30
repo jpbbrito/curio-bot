@@ -40,8 +40,7 @@ bot.use(stage.middleware())
 
 async function startBot () {
   try {
-    bot.webhookCallback(bot.secretPathComponent())
-    bot.launch()
+    bot.launch({ webhook: {domain: 'drab-pear-swallow-coat.cyclic.app/bot', port: process.env.PORT_SERVER}})
   } catch (error) {
     console.log('[index.js] error', error)
     
