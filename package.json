@@ -3,22 +3,21 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "NODE_ENV=dev npx nodemon index.js",
-    "start": "node index.js",
-    "start:docker": "docker compose --env-file .env up bot -d",
-    "stop": "docker compose --env-file .env down",
-    "build:old": "docker compose build"
+    "dev": "ENV=dev npx nodemon index.js",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ngrok/ngrok": "^1.0.0",
     "axios": "0.27.2",
     "dotenv": "16.0.1",
-    "express": "^4.18.2",
+    "node-telegram-bot-api": "^0.64.0",
     "nodemon": "2.0.16",
-    "telegraf": "4.8.1"
+    "redis": "^4.6.13"
   }
 }

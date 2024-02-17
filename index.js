@@ -1,55 +1,51 @@
-const { Composer, Telegraf, session, Scenes } = require('telegraf');
-const express = require('express');
+import TelegramBot from 'node-telegram-bot-api'
+import Redis from './src/services/redis.js'
+import ngrok from "@ngrok/ngrok";
+import * as dotenv from 'dotenv'
 
-const app = express();
+let url
 
-require('dotenv').config({
-  path: process.env.NODE_ENV === 'dev' ? '.dev.env' : '.env'
-});
-
-console.log('[index] process.env.URL_SERVER_API', process.env.URL_SERVER_API);
-
-const {
-  start,
-  stepHandler,
-  getDescription,
-  getLocation,
-  getAddress,
-  getPhoto,
-  endScene,
-} = require('./src/scenes');
-
-const bot = new Telegraf(process.env.TOKEN);
-
-const superWizard = new Scenes.WizardScene(
-  'super-wizard',
-  start,
-  stepHandler,
-  getDescription,
-  getLocation,
-  getAddress,
-  getPhoto,
-  endScene,
-)
-
-const stage = new Scenes.Stage([superWizard], {
-  default: 'super-wizard',
-});
-bot.use(session())
-bot.use(stage.middleware())
-
-async function startBot () {
-  try {
-    bot.launch({ webhook: {domain: 'drab-pear-swallow-coat.cyclic.app/bot', port: process.env.PORT_SERVER}})
-  } catch (error) {
-    console.log('[index.js] error', error)
-    
-  }
-  
-  process.once('SIGINT', () => bot.stop('SIGINT'))
-  process.once('SIGTERM', () => bot.stop('SIGTERM'))
+if (process.env.ENV === 'dev') {
+  console.log('[loadEnv] - ')
+  dotenv.config({ path: '.dev.env' })
+  const listener = await ngrok.connect({
+    port: parseInt(process.env.PORT),
+    proto: 'http',
+    authtoken: process.env.NGROK_TOKEN,
+    domain: process.env.NGROK_URL
+  })
+  console.log(`Ingress established at: ${listener.url()}`);
+  url = listener.url()
+} else {
+  url = process.env.URL_BOT
 }
 
-startBot()
+const TOKEN = process.env.TELEGRAM_TOKEN;
 
+const options = {
+  webHook: {
+    port: process.env.PORT
+  }
+};
 
+const bot = new TelegramBot(TOKEN, options);
+
+console.log(`[index.js] url: ${url}`);
+
+bot.setWebHook(`${url}/bot${TOKEN}`);
+
+await Redis.createConnection({
+  url: process.env.REDIS_URL,
+  username: process.env.REDIS_USERNAME,
+  password: process.env.REDIS_PASSWORD
+})
+
+// Just to ping!
+bot.on('message', function onMessage(msg) {
+  console.log('[TelegramBot] msg', msg)
+  if (msg.text === '/start') {
+    bot.sendMessage(msg.chat.id, 'Começa aqui desgraça!');
+  } else {
+    bot.sendMessage(msg.chat.id, 'I am alive on Heroku!');
+  }
+});
