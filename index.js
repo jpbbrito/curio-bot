@@ -50,11 +50,11 @@ const APIKeyCurio = process.env.API_KEY
 
 const options = {
   webHook: {
-    port: process.env.PORT
+    //port: process.env.PORT
   }
 };
 
-const bot = new TelegramBot(TOKEN, options);
+const bot = new TelegramBot(TOKEN);
 
 console.log(`[index.js] url: ${url}`);
 
@@ -71,7 +71,7 @@ try {
 }
 
 // Just to ping!
-app.post(`/bot/${TOKEN}`, (req, res) => {
+app.post(`/bot${TOKEN}`, (req, res) => {
   bot.processUpdate(req.body)
   res.sendStatus(200)
 })
@@ -80,8 +80,8 @@ app.get('/', (req, res) => {
   res.send('Hello Curio Bot')
 })
 
-app.listen(port, () => {
-  console.log(`Express server is listening on ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Express server is listening on ${process.env.PORT}`);
 });
 
 bot.on('message', async (msg) => {
