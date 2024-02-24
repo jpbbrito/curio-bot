@@ -1,13 +1,17 @@
 import TelegramBot from 'node-telegram-bot-api'
+import express from 'express'
 import Redis from './src/services/redis.js'
 import ngrok from "@ngrok/ngrok";
 import * as dotenv from 'dotenv'
 import message from './src/messages/regular.js'
 import { menu } from './src/steps/menu.js'
-import { getDescription} from './src/steps/get-description.js'
+import { getDescription } from './src/steps/get-description.js'
 import { getAddress } from './src/steps/get-address.js'
 import { getLocation } from './src/steps/get-location.js'
 import { getPhoto } from './src/steps/get-photo.js'
+
+const app = express()
+app.use(express.json())
 
 let url
 const TIMEOUT_RESPONSE = 240
@@ -67,6 +71,10 @@ try {
 }
 
 // Just to ping!
+app.post(`/bot/${TOKEN}`, (req, res) => {
+  bot.processUpdate(req.body)
+  res.sendStatus(200)
+})
 
 async function start() {
   bot.on('message', async (msg) => {
@@ -78,44 +86,54 @@ async function start() {
 
     if (msg.text === '/sair') {
       await Redis.set(`chat-${msg.chat.id}`, { step: steps.END, lastMessage: msg }, 1)
-      return bot.sendMessage(msg.chat.id, message.exitText)
+      bot.sendMessage(msg.chat.id, message.exitText)
+      return
     }
 
     if (chatOnRedis === 'error_redis') {
       await Redis.set(`chat-${msg.chat.id}`, { step: steps.WELCOME, lastMessage: msg }, 1)
-      return bot.sendMessage(msg.chat.id, message.errorUnprocessedMessage)
+      bot.sendMessage(msg.chat.id, message.errorUnprocessedMessage)
+      return
     }
 
     if (!chatOnRedis || chatOnRedis?.step === steps.WELCOME || msg.text === '/start') {
       await Redis.set(`chat-${msg.chat.id}`, { step: steps.MENU, lastMessage: msg })
       console.log('[TelegramBot] msg', message.welcomeText)
-      return bot.sendMessage(msg.chat.id, message.welcomeText)
+      bot.sendMessage(msg.chat.id, message.welcomeText)
+      return
     } else if ((msg.date - chatOnRedis?.lastMessage?.date) > TIMEOUT_RESPONSE) {
       timeout(1000)
       await Redis.set(`chat-${msg.chat.id}`, { step: steps.WELCOME, lastMessage: msg }, 1)
-      return bot.sendMessage(msg.chat.id, message.exitDelay)
+      bot.sendMessage(msg.chat.id, message.exitDelay)
+      return
     } else if (chatOnRedis?.step === steps.MENU) {
       const response = await menu(msg, steps, Redis)
-      return bot.sendMessage(msg.chat.id, response)
+      bot.sendMessage(msg.chat.id, response)
+      return
     } else if (chatOnRedis?.step === steps.GET_DESCRIPTION) {
       const response = await getDescription(msg, steps, Redis)
-      return bot.sendMessage(msg.chat.id, response)
+      bot.sendMessage(msg.chat.id, response)
+      return
     } else if (chatOnRedis?.step === steps.GET_LOCATION) {
       const response = await getLocation(msg, chatOnRedis?.payload, steps, Redis)
-      return bot.sendMessage(msg.chat.id, response)
+      bot.sendMessage(msg.chat.id, response)
+      return
     } else if (chatOnRedis?.step === steps.GET_ADDRESS) {
       const response = await getAddress(msg, chatOnRedis.payload, steps, Redis, APIKeyCurio)
-      return bot.sendMessage(msg.chat.id, response)
+      bot.sendMessage(msg.chat.id, response)
+      return
     } else if (chatOnRedis?.step === steps.GET_PHOTO) {
       if (!msg.photo) {
         console.log('[getPhoto] payload -> ', payload);
         await Redis.set(`chat-${msg.chat.id}`, { step: steps.GET_LOCATION, lastMessage: msg })
-        return ' 📸 Por favor, enviar uma foto do local: '
+        bot.sendMessage(msg.chat.id, ' 📸 Por favor, enviar uma foto do local: ')
+        return
       }
       const endpointImage = await bot.getFileLink(msg.photo[2].file_id);
       console.log('[getPhoto] endpointImage -> ', endpointImage);
       const response = await getPhoto(msg, chatOnRedis.payload, endpointImage, steps, Redis, APIKeyCurio)
-      return bot.sendMessage(msg.chat.id, response)
+      bot.sendMessage(msg.chat.id, response)
+      return
     } else {
       console.log('[end] ->  ACABOU PORRA!');
       return
