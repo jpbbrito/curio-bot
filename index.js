@@ -76,6 +76,10 @@ app.post(`/bot/${TOKEN}`, (req, res) => {
   res.sendStatus(200)
 })
 
+app.get('/', (req, res) => {
+  res.send('Hello Curio Bot')
+})
+
 
 bot.on('message', async (msg) => {
   console.log('[TelegramBot] msg', msg)
