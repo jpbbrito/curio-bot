@@ -80,6 +80,9 @@ app.get('/', (req, res) => {
   res.send('Hello Curio Bot')
 })
 
+app.listen(port, () => {
+  console.log(`Express server is listening on ${port}`);
+});
 
 bot.on('message', async (msg) => {
   console.log('[TelegramBot] msg', msg)
