@@ -30,7 +30,22 @@ public class EchoBot extends TelegramLongPollingBot {
     private SendMessage toRespond(Update update) {
         var textMessage = update.getMessage().getText().toLowerCase();
         var chatId = update.getMessage().getChatId().toString();
-        var answer = "Hello FDP";
+        var answer = " ";
+        if (textMessage.startsWith("/registrarproblema")) {
+            answer = "⌨️ Descreva o problema encontrado: ";
+        } else if (textMessage.startsWith("/sair")) {
+            answer = "Para recomeçar novamente a conversa click ou digitar /start" +
+            "🏃Saindo da conversa...";
+            return SendMessage.builder()
+                .text(answer)
+                .chatId(chatId)
+                .build();
+        } else {
+            answer = "🔨 Curió BOT 👨🏼‍🔧 \n" +
+                "Olá, sou um robô para você relatar os problemas encontrados em sua cidade \n" +
+                "/sair - para sair da conversa (Em qualquer momento) 🛑 \n" +
+                "/registrarProblema - para fazer o registro de um problema ✍️";
+        }
         return SendMessage.builder()
             .text(answer)
             .chatId(chatId)
