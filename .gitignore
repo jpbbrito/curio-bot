@@ -1,33 +1,14 @@
-HELP.md
-target/
-.flattened-pom.xml
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**
-!**/src/test/**
-*.jar
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
+### 
+/node_modules/
 /dist/
-/nbdist/
-/.nb-gradle/
-build/
+.env
+.dev.env
 
 ### VS Code ###
 .vscode/
