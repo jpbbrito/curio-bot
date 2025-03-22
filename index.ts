@@ -1,10 +1,10 @@
-import express, { Request, Response }from 'express'
+import express, { Request, Response } from 'express'
 const app = express()
 
 import * as dotenv from 'dotenv'
 import axios from 'axios'
 
-process.env.STAGE === 'dev' ? dotenv.config({ path: '.dev.env'}) : ''
+process.env.STAGE === 'dev' ? dotenv.config({ path: '.dev.env' }) : ''
 
 const tokenBot: string = process.env.TELEGRAM_TOKEN ?? ''
 const teleApi: string = "https://api.telegram.org/bot" + tokenBot
@@ -46,32 +46,38 @@ app.use(express.json())
 app.get('/', async (req: Request, res: Response): Promise<void> => {
   console.log('Body: ', req.body)
 
-  const update: IUpdateTelegram  = req.body.update
-  const message: IMessageTelegram  = update.message
-  const text = message.text
+  try {
+    const update: IUpdateTelegram = req.body.update
+    const message: IMessageTelegram = update.message
+    const text = message.text
 
-  await axios({
-    url: teleApi + '/sendMessage',
-    method: 'POST',
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-    },
-    data: JSON.stringify({
+    await axios({
+      url: teleApi + '/sendMessage',
+      method: 'POST',
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+      },
+      data: JSON.stringify({
         "chat_id": update.message.chat.id,
         "text": "receive " + text
       })
-  })
+    })
 
-  res.status(200).json({msg: 'okay'})
-  return
+    res.status(200).json({ msg: 'okay' })
+    return
+
+  } catch (error) {
+    console.log('[error:] -> ', error)
+    res.status(501).json({ msg: 'Error 501' })
+  }
 })
 
 
-app.listen(process.env.PORT, ()=> {
+app.listen(process.env.PORT, () => {
   console.log('Server running...')
 })
-  
-  
+
+
 
 
 /*
