@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 const app = express()
-
+import cors from 'cors'
 import * as dotenv from 'dotenv'
 import axios from 'axios'
 
@@ -42,7 +42,9 @@ interface IUpdateTelegram {
   message: IMessageTelegram,
 }
 
+app.use(cors())
 app.use(express.json())
+
 app.get('/', async (req: Request, res: Response): Promise<void> => {
   console.log('Body: ', req.body)
 
