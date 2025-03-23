@@ -52,7 +52,7 @@ app.get('/', async (req: Request, res: Response): Promise<any> => {
     const update: IUpdateTelegram = req.body.update
     const message: IMessageTelegram = update.message
     const text = message.text
-    res.status(200).json('okay')
+    res.status(200).send('okay')
 
     await axios({
       url: teleApi + '/sendMessage',
