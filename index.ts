@@ -45,13 +45,14 @@ interface IUpdateTelegram {
 app.use(cors())
 app.use(express.json())
 
-app.get('/', async (req: Request, res: Response): Promise<void> => {
+app.get('/', async (req: Request, res: Response): Promise<any> => {
   console.log('Body: ', req.body)
 
   try {
     const update: IUpdateTelegram = req.body.update
     const message: IMessageTelegram = update.message
     const text = message.text
+    res.status(200).json('okay')
 
     await axios({
       url: teleApi + '/sendMessage',
@@ -64,10 +65,7 @@ app.get('/', async (req: Request, res: Response): Promise<void> => {
         "text": "receive " + text
       })
     })
-
-    res.status(200).json({ msg: 'okay' })
-    return
-
+    return res.send()
   } catch (error) {
     console.log('[error:] -> ', error)
     res.status(501).json({ msg: 'Error 501' })
