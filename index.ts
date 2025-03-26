@@ -45,7 +45,7 @@ interface IUpdateTelegram {
 app.use(cors())
 app.use(express.json())
 
-app.get('/', async (req: Request, res: Response): Promise<any> => {
+app.use('/', async (req: Request, res: Response): Promise<any> => {
   console.log('Body: ', req.body)
 
   try {
