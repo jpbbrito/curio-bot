@@ -52,7 +52,9 @@ app.use('/', async (req: Request, res: Response): Promise<any> => {
     const update: IUpdateTelegram = req.body
     const message: IMessageTelegram = update.message
     const text = message.text
-
+    console.log('update -> ', update)
+    console.log('message -> ', message)
+    console.log('message -> ', text)
     await axios({
       url: teleApi + '/sendMessage',
       method: 'POST',
@@ -60,7 +62,7 @@ app.use('/', async (req: Request, res: Response): Promise<any> => {
         "content-type": "application/json;charset=UTF-8",
       },
       data: JSON.stringify({
-        "chat_id": update.message.chat.id,
+        "chat_id": message.chat.id,
         "text": "receive " + text
       })
     })
