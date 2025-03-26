@@ -49,10 +49,9 @@ app.use('/', async (req: Request, res: Response): Promise<any> => {
   console.log('Body: ', req.body)
 
   try {
-    const update: IUpdateTelegram = req.body.update
+    const update: IUpdateTelegram = req.body
     const message: IMessageTelegram = update.message
     const text = message.text
-    res.status(200).send('okay')
 
     await axios({
       url: teleApi + '/sendMessage',
@@ -65,10 +64,10 @@ app.use('/', async (req: Request, res: Response): Promise<any> => {
         "text": "receive " + text
       })
     })
-    return res.send()
+    return res.status(200).json({ok: true })
   } catch (error) {
     console.log('[error:] -> ', error)
-    res.status(501).json({ msg: 'Error 501' })
+    res.status(200).json({ok: true })
   }
 })
 
